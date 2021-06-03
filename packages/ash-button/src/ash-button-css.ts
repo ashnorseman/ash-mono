@@ -1,0 +1,138 @@
+import { css } from 'lit';
+
+export const style = css`
+  :host {
+    --button-divider: var(--color-dark-blue-10);
+    --button-height: var(--control-height);
+    --button-icon-margin: calc(var(--control-padding) - 2px);
+    --button-icon-size: var(--control-icon-size);
+    --button-label-margin: var(--control-padding);
+    --button-padding: var(--control-padding);
+    --button-radius-left: var(--control-radius);
+    --button-radius-right: var(--control-radius);
+    --button-text-size: var(--text-sm-size);
+    --button-bg: var(--color-white);
+    --button-border: var(--color-dark-blue-20);
+    --button-shadow: var(--shadow-light);
+    --button-text: var(--color-dark-blue);
+    --button-hover-bg: var(--color-white);
+    --button-hover-border: var(--color-dark-blue-10);
+    --button-hover-shadow: none;
+    --button-hover-text: var(--color-blue);
+    --button-disabled-bg: var(--color-bg-grey);
+    --button-disabled-border: transparent;
+    --button-disabled-shadow: none;
+    --button-disabled-text: var(--color-dark-blue-40);
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  :host([theme='primary']) {
+    --button-bg: var(--color-blue);
+    --button-border: transparent;
+    --button-shadow: var(--shadow-light);
+    --button-text: var(--color-white);
+    --button-hover-bg: var(--color-dark-blue-120);
+    --button-hover-border: transparent;
+    --button-hover-shadow: var(--shadow-light);
+    --button-hover-text: var(--color-white);
+  }
+
+  :host([theme='secondary']) {
+    --button-bg: var(--color-light-blue);
+    --button-border: transparent;
+    --button-shadow: none;
+    --button-text: var(--color-blue);
+    --button-hover-bg: var(--color-light-blue-120);
+    --button-hover-border: transparent;
+    --button-hover-shadow: none;
+    --button-hover-text: var(--color-blue);
+  }
+
+  :host([theme='warning']) {
+    --button-bg: var(--color-red);
+    --button-border: transparent;
+    --button-shadow: var(--shadow-light);
+    --button-text: var(--color-white);
+    --button-hover-bg: var(--color-red-120);
+    --button-hover-border: transparent;
+    --button-hover-shadow: var(--shadow-light);
+    --button-hover-text: var(--color-white);
+  }
+
+  :host([block]) {
+    display: block;
+  }
+
+  button {
+    all: unset;
+    background: var(--button-bg);
+    border: 1px solid var(--button-border);
+    border-radius: var(--button-radius-left) var(--button-radius-right) var(--button-radius-right)
+      var(--button-radius-left);
+    box-shadow: var(--button-shadow);
+    box-sizing: border-box;
+    color: var(--button-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--button-text-size);
+    height: var(--button-height);
+    line-height: 1;
+    padding: 0 var(--button-padding);
+    transition: all var(--transition-duration) ease-in-out;
+    white-space: nowrap;
+    width: 100%;
+  }
+  button:enabled {
+    cursor: pointer;
+  }
+  button:enabled:hover {
+    background: var(--button-hover-bg);
+    border-color: var(--button-hover-border);
+    box-shadow: var(--button-hover-shadow);
+    color: var(--button-hover-text);
+  }
+  button:disabled {
+    cursor: not-allowed;
+    background: var(--button-disabled-bg);
+    border-color: var(--button-disabled-border);
+    box-shadow: var(--button-disabled-shadow);
+    color: var(--button-disabled-text);
+  }
+
+  .icon,
+  .dropdown {
+    font-family: 'Material Icons', sans-serif;
+  }
+
+  .icon {
+    font-size: var(--button-icon-size);
+    margin-right: var(--button-icon-margin);
+  }
+  :host([trailing]) .icon {
+    order: 1;
+    margin-left: var(--button-icon-margin);
+    margin-right: 0;
+  }
+
+  .label,
+  .dropdown {
+    border-left: 1px solid var(--button-divider);
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    margin-left: var(--button-label-margin);
+  }
+
+  .label {
+    padding-left: var(--button-label-margin);
+  }
+
+  .dropdown {
+    box-sizing: border-box;
+    justify-content: center;
+    margin-right: calc(var(--button-padding) * -1);
+    width: var(--button-height);
+  }
+`;

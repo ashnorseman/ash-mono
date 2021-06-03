@@ -1,0 +1,6 @@
+0 silly argv { _: [ 'bootstrap' ], lernaVersion: '3.22.1', '$0': 'lerna' }
+1 notice cli v3.22.1
+2 verbose rootPath /Users/ash/MyProjects/ash-mono
+3 error JSONError: Unexpected token } in JSON at position 273 while parsing near '...cript": "^4.2.4",  }}' in packages/ash-button/package.json
+3 error     at module.exports (/Users/ash/MyProjects/ash-mono/node_modules/parse-json/index.js:26:19)
+3 error     at parse (/Users/ash/MyProjects/ash-mono/node_modules/load-json-file/index.js:15:9)

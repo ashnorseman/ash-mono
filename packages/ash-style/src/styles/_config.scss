@@ -1,0 +1,60 @@
+@import '../variables';
+
+:root {
+  --color-blue: #{$color-blue};
+  --color-blue-40: #{transparentize($color-blue, 0.6)};
+  --color-blue-20: #{transparentize($color-blue, 0.8)};
+  --color-blue-10: #{transparentize($color-blue, 0.9)};
+  --color-blue-3: #{transparentize($color-blue, 0.97)};
+  --color-dark-blue-120: #0055bb;
+  --color-dark-blue: #{$color-dark-blue};
+  --color-dark-blue-60: #{transparentize($color-dark-blue, 0.4)};
+  --color-dark-blue-40: #{transparentize($color-dark-blue, 0.6)};
+  --color-dark-blue-25: #{transparentize($color-dark-blue, 0.75)};
+  --color-dark-blue-20: #{transparentize($color-dark-blue, 0.8)};
+  --color-dark-blue-10: #{transparentize($color-dark-blue, 0.9)};
+  --color-dark-blue-3: #{transparentize($color-dark-blue, 0.97)};
+  --color-light-blue-120: #dae9fb;
+  --color-light-blue: #edf4fb;
+  --color-white: #{$color-white};
+  --color-white-40: #{transparentize($color-white, 0.6)};
+  --color-white-20: #{transparentize($color-white, 0.8)};
+  --color-white-10: #{transparentize($color-white, 0.9)};
+  --color-red-120: #db3636;
+  --color-red: #{$color-red};
+  --color-red-40: #{transparentize($color-red, 0.6)};
+  --color-red-20: #{transparentize($color-red, 0.8)};
+  --color-red-10: #{transparentize($color-red, 0.9)};
+  --color-yellow: #{$color-yellow};
+  --color-yellow-40: #{transparentize($color-yellow, 0.6)};
+  --color-yellow-20: #{transparentize($color-yellow, 0.8)};
+  --color-yellow-10: #{transparentize($color-yellow, 0.9)};
+  --color-green: #{$color-green};
+  --color-green-40: #{transparentize($color-green, 0.6)};
+  --color-green-20: #{transparentize($color-green, 0.8)};
+  --color-green-10: #{transparentize($color-green, 0.9)};
+
+  --color-bg-grey: #eff3f6;
+  --color-bg-light-grey: #f5f8fa;
+
+  --shadow: #{0 1px 2px transparentize($color-shadow, 0.88)};
+  --shadow-light: #{0 2px 3px transparentize($color-shadow, 0.95)};
+  --shadow-outline: #{0 0 0 3px transparentize($color-shadow, 0.95)};
+
+  --headline-1-size: 32px;
+  --headline-1-height: 40px;
+  --headline-2-size: 24px;
+  --headline-2-height: 32px;
+  --text-size: 16px;
+  --text-height: 24px;
+  --text-sm-size: 12px;
+  --text-sm-height: 20px;
+
+  --control-height: 24px;
+  --control-icon-size: 14px;
+  --control-padding: 8px;
+  --control-radius: 3px;
+  --control-radius-lg: 5px;
+
+  --transition-duration: 0.1s;
+}

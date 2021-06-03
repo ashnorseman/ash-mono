@@ -1,0 +1,34 @@
+{
+  "name": "korean",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "ash-button": "^1.0.0",
+    "ash-style": "^1.0.0",
+    "ash-tag": "^1.0.0",
+    "ash-text-input": "^1.0.0",
+    "ash-tooltip": "^1.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

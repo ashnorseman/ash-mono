@@ -1,0 +1,26 @@
+{
+  "name": "ash-style",
+  "version": "1.0.0",
+  "description": "UI web component",
+  "type": "module",
+  "main": "dist/index.css",
+  "module": "dist/index.css",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "npm run build:scss & npm run build:ts",
+    "build:scss": "node-sass src/index.scss dist/index.css",
+    "build:ts": "tsc",
+    "clean": "rm -rf dist",
+    "prepare": "npm run clean & npm run build",
+    "watch": "npm run watch:scss & npm run watch:ts",
+    "watch:scss": "nodemon -e scss --watch src -x \"npm run build:scss\"",
+    "watch:ts": "nodemon -e ts --watch src -x \"npm run build:ts\""
+  },
+  "author": "Ash Zhang <ash.zhang@signify.com>",
+  "license": "MIT",
+  "dependencies": {
+    "material-design-icons": "^3.0.1"
+  }
+}

@@ -1,0 +1,14 @@
+.item-group > * {
+  margin: 8px;
+}
+
+.item-group > ash-tooltip-container {
+  margin: var(--control-height) 50px;
+}
+
+.tooltip-target {
+  background: var(--color-dark-blue-10);
+  border-radius: 50%;
+  height: 12px;
+  width: 12px;
+}

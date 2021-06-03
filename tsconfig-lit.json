@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2019",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "module": "ES2015",
+    "noEmit": false,
+    "sourceMap": true,
+    "plugins": [
+      {
+        "name": "ts-lit-plugin",
+        "strict": true
+      }
+    ]
+  }
+}

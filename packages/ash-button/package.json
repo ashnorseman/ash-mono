@@ -1,0 +1,30 @@
+{
+  "name": "ash-button",
+  "version": "1.0.0",
+  "description": "UI web component",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "build": "npm run build:scss & npm run build:ts",
+    "build:scss": "../../scripts/build-scss.sh",
+    "build:ts": "tsc",
+    "clean": "rm -rf dist",
+    "lint:eslint": "eslint 'src/**/*.ts'",
+    "lint:lit-analyzer": "lit-analyzer",
+    "prepare": "npm run clean & npm run build",
+    "watch": "npm run watch:scss & npm run watch:ts",
+    "watch:scss": "nodemon -e scss --watch src -x \"npm run build:scss\"",
+    "watch:ts": "nodemon -e ts --watch src -x \"npm run build:ts\""
+  },
+  "author": "Ash Zhang <ash.zhang@signify.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lit": "^2.0.0-rc.2",
+    "material-design-icons": "^3.0.1"
+  }
+}

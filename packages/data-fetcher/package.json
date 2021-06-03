@@ -1,0 +1,14 @@
+{
+  "name": "data-fetcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "query:words": "ts-node-dev --respawn --project ./tsconfig.json ./query-word.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node-dev": "^1.1.6"
+  }
+}
