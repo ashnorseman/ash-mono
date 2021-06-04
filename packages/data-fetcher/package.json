@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "query:words": "ts-node-dev --respawn --project ./tsconfig.json ./query-word.ts"
+    "query:jlpt": "ts-node-dev --respawn --project ./tsconfig.json query-jlpt.ts",
+    "query:words": "ts-node-dev --respawn --project ./tsconfig.json query-words.ts"
   },
   "author": "",
   "license": "ISC",

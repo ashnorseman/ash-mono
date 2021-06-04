@@ -8,7 +8,7 @@ import { IJlptWord } from './interfaces/i-jlpt-word';
 let queryResult: IJlptWord[] = [];
 
 function sortQueryResult(level: number) {
-  fs.writeFileSync(path.resolve(__dirname, `jp-${level}-result.json`), JSON.stringify(queryResult), 'UTF-8');
+  fs.writeFileSync(path.resolve(__dirname, `dist/jlpt/jp-${level}-result.json`), JSON.stringify(queryResult), 'UTF-8');
 }
 
 function queryLevel(level: number, page: number) {
