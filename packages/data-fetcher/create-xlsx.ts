@@ -23,18 +23,28 @@ function processPos(posName: string) {
 
     const worksheet = workbook.getWorksheet(posName);
 
+    worksheet.views = [
+      {
+        state: 'frozen',
+        ySplit: 1
+      }
+    ];
+
     worksheet.columns = [
       {
-        header: 'Entry',
-        key: 'entry_name'
+        header: `Entry (${words.length})`,
+        key: 'entry_name',
+        width: 15
       },
       {
-        header: 'Kanji',
-        key: 'kanji'
+        header: 'Pron',
+        key: 'pron',
+        width: 15
       },
       {
-        header: 'Accent',
-        key: 'accent_note'
+        header: '',
+        key: 'accent_note',
+        width: 2.5
       },
       {
         header: 'Meaning',
@@ -44,24 +54,39 @@ function processPos(posName: string) {
     ];
 
     words.forEach((word) => {
-      const values: string[] = [word.entry_name, word.kanji || '', word.accent_note || ''];
+      const values: string[] = [
+        word.kanji || word.entry_name,
+        word.kanji ? word.entry_name : '',
+        (word.accent_note || '')[0] || ''
+      ];
+
       const means: string[] = [];
 
+      word.means = word.means.filter((m) => !!m.mean);
+
+      if (word.means.length > 3) {
+        word.means = word.means.filter((m) => m.examples && m.examples.length).slice(0, 3);
+      }
+
       word.means.forEach((mean, i) => {
-        if (mean.mean) {
-          means.push(i + 1 + '. ' + cleanText(mean.mean));
+        const id = word.means.length > 1 ? i + 1 + '. ' : '';
 
-          if (mean.examples) {
-            mean.examples.forEach((item) => {
-              if (item.example) {
-                means.push(cleanText(item.example));
+        means.push(id + '【' + cleanText(mean.mean) + '】');
 
-                if (item.translation) {
-                  means.push(cleanText(item.translation));
-                }
-              }
-            });
+        if (mean.examples) {
+          if (mean.examples.length > 1) {
+            mean.examples = mean.examples.filter((i) => i.example && i.translation).slice(0, 1);
           }
+
+          mean.examples.forEach((item) => {
+            if (item.example) {
+              means.push(cleanText(item.example));
+
+              if (item.translation) {
+                means.push(cleanText(item.translation));
+              }
+            }
+          });
         }
       });
 
@@ -80,7 +105,7 @@ function processPos(posName: string) {
         vertical: 'top'
       };
 
-      row.getCell('kanji').alignment = {
+      row.getCell('pron').alignment = {
         vertical: 'top'
       };
 
@@ -97,19 +122,19 @@ function processPos(posName: string) {
 }
 
 [
-  '5단활용 자동사',
-  '5단활용 자동사·타동사',
-  '5단활용 타동사',
-  '1단 자동사',
-  '1단 자동사·타동사',
-  '1단 타동사',
-  'サ행변격 자동사',
-  'サ행변격 자동사·타동사',
-  'サ행변격 타동사',
-  'ス자동사',
-  'ス자동사·타동사',
-  'ス타동사',
-  'カ행변격 자동사',
+  '5자',
+  '5자·타',
+  '5타',
+  '1자',
+  '1자·타',
+  '1타',
+  'サ자',
+  'サ자·타',
+  'サ타',
+  'ス자',
+  'ス자·타',
+  'ス타',
+  'カ자',
   '형용사',
   '형용동사',
   '대명사',
@@ -127,4 +152,6 @@ function processPos(posName: string) {
   processPos(pos);
 });
 
-workbook.xlsx.writeFile(path.resolve(__dirname, 'dist/vocabulary.xlsx'));
+console.log('Finished.');
+
+workbook.xlsx.writeFile(path.resolve(__dirname, 'dist/Vocabulary.xlsx'));

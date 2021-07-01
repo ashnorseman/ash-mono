@@ -62,7 +62,7 @@ async function queryWord(word: IJlptWord) {
       pron_file: member.prons?.[0]?.female_pron_file || member.prons?.[0]?.male_pron_file || '',
       means: means.map((mean) => {
         return {
-          pos: mean.part?.part_ko_name || '',
+          pos: [mean.part?.part_ko_name || ''],
           mean: mean.origin_mean || '',
           examples: (mean.examples || []).map((item) => {
             return {
