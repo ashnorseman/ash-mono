@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "query:jlpt": "ts-node-dev --respawn --project ./tsconfig.json query-jlpt.ts",
-    "query:words": "ts-node-dev --respawn --project ./tsconfig.json query-words.ts"
+    "query:words": "ts-node-dev --respawn --project ./tsconfig.json query-words.ts",
+    "sort:words": "ts-node-dev --respawn --project ./tsconfig.json sort-words.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
+    "exceljs": "^4.2.1",
     "ts-node-dev": "^1.1.6"
   }
 }

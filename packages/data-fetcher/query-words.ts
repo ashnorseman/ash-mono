@@ -1,104 +1,93 @@
 import * as fs from 'fs';
-import * as https from 'https';
 import * as path from 'path';
+import axios from 'axios';
 
-import { IStandardWord } from './interfaces/i-word';
-import { IWordRes } from './interfaces/i-word-res';
+import { IJlptWord } from './interfaces/i-jlpt-word';
+import { ISavedWord } from './interfaces/i-saved-word';
 
-let queryResult: IStandardWord[] = [];
-
-function sortQueryResult(book: number) {
-  fs.writeFileSync(path.resolve(__dirname, `dist/standard/${book}-result.json`), JSON.stringify(queryResult), 'UTF-8');
-}
-
-function queryWord(word: string, book: number) {
-  const queryUrl = `https://ja.dict.naver.com/api3/jako/search?query=${encodeURIComponent(word)}`;
-
-  const req = https.request(queryUrl, async (res) => {
-    let rawResponse = '';
-
-    res.on('data', (data: Buffer) => {
-      rawResponse += data.toString();
-    });
-
-    res.on('end', () => {
-      const rawData: IWordRes = JSON.parse(rawResponse);
-      const item = rawData.searchResultMap.searchResultListMap.WORD.items.find(
-        (a) => !!a.searchPhoneticSymbolList?.length
-      );
-
-      if (!item) {
-        return;
-      }
-
-      const soundPath = item.searchPhoneticSymbolList?.[0]?.phoneticSymbolPath;
-
-      if (queryResult.find((q) => q.entry === item.entryId)) {
-        return;
-      }
-
-      const savedWord: IStandardWord = {
-        entry: item.entryId,
-        handleEntry: item.handleEntry,
-        word,
-        hasSound: !!soundPath,
-        meaning: item.meansCollector.map((item) => {
-          return {
-            partOfSpeech2: item.partOfSpeech2,
-            means: item.means.map((mean) => {
-              return {
-                exampleOri: mean.exampleOri,
-                exampleTrans: mean.exampleTrans,
-                value: mean.value
-              };
-            })
-          };
-        })
+interface IEntryRes {
+  entry: {
+    means: Array<{
+      origin_mean: string;
+      examples: Array<{
+        origin_example: string;
+        translations: Array<{
+          origin_translation: string;
+        }>;
+      }>;
+      part: {
+        part_ko_name: string;
       };
+    }>;
+    members: Array<{
+      accent_note: string;
+      entry_name: string;
+      kanji: string;
+      prons: Array<{
+        male_pron_file: string;
+        female_pron_file: string;
+      }>;
+    }>;
+  };
+}
 
-      const mp3File = path.resolve(__dirname, `dist/sounds/${savedWord.entry}.mp3`);
+async function queryWord(word: IJlptWord) {
+  const file = path.resolve(__dirname, `dist/vocabulary/${word.id}.json`);
 
-      if (!fs.existsSync(mp3File)) {
-        https.get(soundPath, (res) => {
-          const ws = fs.createWriteStream(mp3File);
+  if (fs.existsSync(file)) {
+    return;
+  }
 
-          res.pipe(ws);
+  const queryUrl = `https://ja.dict.naver.com/api/platform/jako/entry?entryId=${encodeURIComponent(word.id)}`;
 
-          ws.on('finish', () => {
-            const savedSize = fs.statSync(mp3File).size;
-
-            if (!savedSize) {
-              fs.unlinkSync(mp3File);
-              savedWord.hasSound = false;
-            }
-
-            queryResult.push(savedWord);
-
-            sortQueryResult(book);
-
-            ws.close();
-          });
-        });
-      }
+  try {
+    const req = await axios.get<IEntryRes>(queryUrl, {
+      timeout: 1000
     });
-  });
 
-  req.on('error', (error) => console.error(error)).end();
+    const means = req.data.entry.means || [];
+    const member = req.data.entry.members[0];
+
+    if (!member) {
+      console.error(`No entry found for ${word}.`);
+      return;
+    }
+
+    member.accent_note = (member.accent_note || '').replace(/,/g, '');
+
+    const res: ISavedWord = {
+      kanji: member.kanji || '',
+      entry_name: member.entry_name || '',
+      accent_note: member.accent_note || '',
+      pron_file: member.prons?.[0]?.female_pron_file || member.prons?.[0]?.male_pron_file || '',
+      means: means.map((mean) => {
+        return {
+          pos: mean.part?.part_ko_name || '',
+          mean: mean.origin_mean || '',
+          examples: (mean.examples || []).map((item) => {
+            return {
+              example: item.origin_example,
+              translation: item.translations?.[0].origin_translation || ''
+            };
+          })
+        };
+      })
+    };
+
+    console.log(`Saved: ${word.pron} ${word.entry}.`);
+
+    fs.writeFileSync(file, JSON.stringify(res), 'UTF-8');
+  } catch (e) {
+    console.error(`Failed to fetch ${word.pron} ${word.entry} (${word.id}).`);
+  }
 }
 
-function queryBook(book: number) {
-  const saved = fs.readFileSync(path.resolve(__dirname, `dist/standard/${book}-result.json`), 'utf-8');
+async function queryAll() {
+  const all: IJlptWord[] = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'dist/jlpt/jp-result.json'), 'utf-8'));
 
-  queryResult = saved ? JSON.parse(saved) : [];
-
-  const words = fs
-    .readFileSync(path.resolve(__dirname, `./standard/${book}.txt`), 'utf-8')
-    .trim()
-    .split('\n');
-
-  words.forEach((word) => {
-    queryWord(word, book);
-  });
+  for (const word of all) {
+    await queryWord(word);
+  }
 }
 
-queryBook(1);
+queryAll().then();
